@@ -2,6 +2,12 @@ import { config } from "dotenv";
 
 config();
 
-export default {
-  port: Number(process.env.PORT),
+export interface IServerConfig {
+  port: number;
+}
+
+const serverConfig: IServerConfig = {
+  port: Number(process.env.PORT ?? 3000),
 };
+
+export default serverConfig;

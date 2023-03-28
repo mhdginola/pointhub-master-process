@@ -2,6 +2,12 @@ import { config } from "dotenv";
 
 config();
 
-export default {
-  name: process.env.APP_NAME,
+export interface IAppConfig {
+  name: string;
+}
+
+const appConfig: IAppConfig = {
+  name: process.env.APP_NAME ?? "",
 };
+
+export default appConfig;
