@@ -55,18 +55,16 @@ export interface ReadManyResultInterface {
 
 export interface UpdateResultInterface {
   acknowledged: boolean;
+  matchedCount: number;
   modifiedCount: number;
   upsertedId: string | null;
   upsertedCount: number;
-  matchedCount: number;
 }
 
 export interface UpdateManyResultInterface {
   acknowledged: boolean;
-  modifiedCount: number;
-  upsertedId: string | null;
-  upsertedCount: number;
   matchedCount: number;
+  modifiedCount: number;
 }
 
 export interface DeleteResultInterface {
@@ -119,11 +117,12 @@ export interface IDatabaseAdapter {
   readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface>;
   update(id: string, document: DocumentInterface, options?: UpdateOptionsInterface): Promise<UpdateResultInterface>;
   updateMany(
+    filter: DocumentInterface,
     documents: Array<DocumentInterface>,
     options?: UpdateManyOptionsInterface
   ): Promise<UpdateManyResultInterface>;
   delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface>;
-  deleteMany(listId: Array<string>, options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface>;
+  deleteMany(filter: DocumentInterface, options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface>;
   deleteAll(options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface>;
   aggregate(
     pipeline: unknown,
@@ -252,10 +251,11 @@ export default class DatabaseConnection {
   }
 
   public async updateMany(
+    filter: DocumentInterface,
     documents: Array<DocumentInterface>,
-    options?: UpdateOptionsInterface
-  ): Promise<UpdateResultInterface> {
-    return await this.adapter.updateMany(documents, options);
+    options?: UpdateManyOptionsInterface
+  ): Promise<UpdateManyResultInterface> {
+    return await this.adapter.updateMany(filter, documents, options);
   }
 
   public async delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface> {
@@ -263,10 +263,10 @@ export default class DatabaseConnection {
   }
 
   public async deleteMany(
-    listId: Array<string>,
+    filter: DocumentInterface,
     options?: DeleteManyOptionsInterface
   ): Promise<DeleteManyResultInterface> {
-    return await this.adapter.deleteMany(listId, options);
+    return await this.adapter.deleteMany(filter, options);
   }
 
   public async deleteAll(options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface> {

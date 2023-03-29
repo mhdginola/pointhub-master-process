@@ -42,6 +42,8 @@ import {
   DeleteManyResultInterface,
   AggregateResultInterface,
   CreateManyResultInterface,
+  UpdateManyResultInterface,
+  UpdateManyOptionsInterface,
 } from "./connection.js";
 
 import MongoError from "./mongodb-error-handler.js";
@@ -306,10 +308,15 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     }
   }
 
+  /**
+   * Updates all documents that match the specified filter for a collection.
+   * https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/#examples
+   */
   public async updateMany(
+    filter: DocumentInterface,
     documents: Array<DocumentInterface>,
-    options?: UpdateOptionsInterface
-  ): Promise<UpdateResultInterface> {
+    options?: UpdateManyOptionsInterface
+  ): Promise<UpdateManyResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
     }
@@ -317,18 +324,12 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     const updateOptions = options as UpdateOptions;
 
     try {
-      const result = await this._collection.updateMany(
-        { _id: new ObjectId("asd") },
-        { $set: documents },
-        updateOptions
-      );
+      const result = await this._collection.updateMany(filter, { $set: documents }, updateOptions);
 
       return {
         acknowledged: result.acknowledged,
-        modifiedCount: result.modifiedCount,
-        upsertedId: result.upsertedId.toString(),
-        upsertedCount: result.upsertedCount,
         matchedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
       };
     } catch (error) {
       if (error instanceof MongoServerError) {
@@ -358,8 +359,20 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     };
   }
 
+  /**
+   * Removes all documents that match the filter from a collection.
+   * https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/
+   * 
+   * Example
+   * Remove multiple ids
+   * db.collection.remove( { _id : { $in: [
+    ObjectId("51ee3966e4b056fe8f074f48"), 
+    ObjectId("51ee3966e4b056fe8f074f4a"), 
+    ObjectId("51ee3966e4b056fe8f074f4b") 
+] } } );
+   */
   public async deleteMany(
-    listId: Array<string>,
+    filter: DocumentInterface,
     options?: DeleteManyOptionsInterface
   ): Promise<DeleteManyResultInterface> {
     if (!this._collection) {
@@ -368,12 +381,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
     const deleteOptions = options as DeleteOptions;
 
-    const result = await this._collection.deleteMany(
-      {
-        _id: new ObjectId("asd"),
-      },
-      deleteOptions
-    );
+    const result = await this._collection.deleteMany(filter, deleteOptions);
 
     return {
       acknowledged: result.acknowledged,
