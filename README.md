@@ -33,7 +33,7 @@ Choose one of the options that you prefer
 
 - Use online Database as a Service (DBaaS) [Atlas MongoDB](https://www.mongodb.com/atlas/database)
 
-### Quickstart
+### Installation
 
 #### With Docker
 
@@ -45,8 +45,44 @@ docker-compose up
 
 ```bash
 cp .env.example .env
+cp .env.test.example .env.test
 npm install
 npm run dev
+```
+
+### Setup Database
+
+#### Add Validation Schema
+
+```bash
+node cli db:init
+```
+
+#### Seed Default Database
+
+```bash
+node cli db:seed
+```
+
+### Testing
+
+Testing all test case
+
+```bash
+npm run test
+```
+
+Testing specific file or folder
+
+```bash
+# Test specific file
+npm run test -- src/modules/example/controller/create.spec
+
+# Test specific folder
+npm run test -- src/modules/example/controller
+
+# Test example module
+npm run test -- src/modules/example
 ```
 
 ### Deployment
