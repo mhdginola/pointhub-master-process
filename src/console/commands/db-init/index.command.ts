@@ -28,6 +28,8 @@ export default class DbInitCommand extends BaseCommand {
       await dbConnection.createCollections();
     } catch (error) {
       console.error(error);
+    } finally {
+      dbConnection.close();
     }
   }
 }

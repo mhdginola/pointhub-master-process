@@ -14,15 +14,15 @@ export default class DbSeedCommand extends BaseCommand {
     });
   }
   async handle(): Promise<void> {
+    const dbConnection = new DatabaseConnection(
+      new MongoDbConnection({
+        name: databaseConfig[databaseConfig.default].name,
+        url: databaseConfig[databaseConfig.default].url,
+      })
+    );
+    dbConnection.database(databaseConfig[databaseConfig.default].name);
     try {
-      const dbConnection = new DatabaseConnection(
-        new MongoDbConnection({
-          name: databaseConfig[databaseConfig.default].name,
-          url: databaseConfig[databaseConfig.default].url,
-        })
-      );
-      dbConnection.database(databaseConfig[databaseConfig.default].name);
-
+      await dbConnection.open();
       // seed examples colllection
       const { exampleSeeds } = await import("@src/modules/example/model/example.seed.js");
       await dbConnection.collection("examples").deleteAll();
@@ -30,6 +30,8 @@ export default class DbSeedCommand extends BaseCommand {
       console.info(`[seed] seeding examples data`, exampleData);
     } catch (error) {
       console.error(error);
+    } finally {
+      dbConnection.close();
     }
   }
 }
