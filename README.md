@@ -39,7 +39,7 @@ If you are using docker for installation, currently we cannot connect it to the 
 
 #### With Docker
 
-> You still need to install dependencies locally for enable development feature like eslint, prettier, test. 
+> You still need to install dependencies locally to enable development features like eslint, prettier, and test. 
 
 ```bash
 cp .env.example .env
