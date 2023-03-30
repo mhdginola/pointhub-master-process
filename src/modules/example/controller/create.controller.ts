@@ -7,6 +7,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     const session = db.startSession();
 
     db.startTransaction();
+
     const createExampleUseCase = new CreateExampleUseCase(db);
     const result = await createExampleUseCase.handle(req.body, { session });
 

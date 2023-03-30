@@ -168,9 +168,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
         w: "majority",
       };
 
-      // inject created date
-      doc.createdAt = new Date();
-
       const response = await this._collection.insertOne(doc, insertOneOptions);
 
       return {
@@ -286,9 +283,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     }
 
     const updateOptions = options as UpdateOptions;
-
-    // inject date of updated
-    document.updatedAt = new Date();
 
     try {
       const result = await this._collection.updateOne({ _id: new ObjectId(id) }, { $set: document }, updateOptions);

@@ -12,14 +12,18 @@ export class CreateExampleUseCase {
 
   public async handle(document: DocumentInterface, options: CreateOptionsInterface) {
     try {
+      // validate request body
       validate(document);
 
+      // save to database
       const exampleEntity = new ExampleEntity({
         name: document.name,
+        status: "active",
+        createdAt: new Date(),
       });
-
       const exampleRepository = new ExampleRepository(this.db);
       const response = await exampleRepository.create(exampleEntity, options);
+
       return {
         acknowledged: response.acknowledged,
         _id: response._id,
