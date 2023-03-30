@@ -35,9 +35,16 @@ Choose one of the options that you prefer
 
 ### Installation
 
+If you are using docker for installation, currently we cannot connect it to the local MongoDB database. So you should use an online database for development
+
 #### With Docker
 
+> You still need to install dependencies locally for enable development feature like eslint, prettier, test. 
+
 ```bash
+cp .env.example .env
+cp .env.test.example .env.test
+npm install
 docker-compose up
 ```
 
@@ -83,6 +90,31 @@ npm run test -- src/modules/example/controller
 
 # Test example module
 npm run test -- src/modules/example
+```
+
+(Optional) Running test from docker
+
+1. Check running container
+
+```bash
+docker ps
+```
+
+```bash
+CONTAINER ID   IMAGE              COMMAND                  CREATED             STATUS                PORTS                                 NAMES
+902293b368b3   papi-starter-api   "docker-entrypoint.s…"   About an hour ago   Up 11 minutes         0.0.0.0:3000->3000/tcp
+```
+
+2. Access docker container using CONTAINER ID above
+
+```bash
+docker exec -it 902293b368b3 bash
+```
+
+3. Run test inside docker container
+
+```bash
+node@902293b368b3:~/app$ npm run test
 ```
 
 ### Deployment

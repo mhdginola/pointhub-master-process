@@ -10,7 +10,7 @@
     "dev:compile": "tsc -w --preserveWatchOutput -p tsconfig.build.json",
     "dev:resolve-path": "tsc-alias -w -p tsconfig.build.json",
     "dev:run": "nodemon --delay 1000 build/index.js",
-    "dev": "npm run build:compile && concurrently -k -p \"none\" npm:dev:*",
+    "dev": "npm run build:compile && npm run build:resolve-path && concurrently -k -p \"none\" npm:dev:*",
     "build:compile": "tsc -p tsconfig.build.json",
     "build:resolve-path": "tsc-alias -p tsconfig.build.json",
     "build": "rimraf build && npm run build:compile && npm run build:resolve-path",
@@ -72,6 +72,5 @@
   },
   "engines": {
     "node": ">=16.14"
-  },
-  "packageManager": "yarn@3.5.0"
+  }
 }
