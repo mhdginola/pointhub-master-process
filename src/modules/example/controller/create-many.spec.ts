@@ -1,3 +1,4 @@
+import { isValid } from "date-fns";
 import request from "supertest";
 import { createApp } from "@src/app.js";
 import { resetDatabase, retrieveAll } from "@src/test/utils.js";
@@ -41,7 +42,7 @@ describe("create many examples", () => {
       expect(exampleRecord._id).toStrictEqual(response.body.insertedIds[index]);
       expect(exampleRecord.name).toStrictEqual(data[index].name);
       expect(exampleRecord.status).toStrictEqual("active");
-      expect(exampleRecord.createdAt instanceof Date).toBeTruthy();
+      expect(isValid(new Date(exampleRecord.createdAt))).toBeTruthy();
     }
   });
 });

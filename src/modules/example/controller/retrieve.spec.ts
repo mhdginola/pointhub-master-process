@@ -1,3 +1,4 @@
+import { isValid } from "date-fns";
 import request from "supertest";
 import ExampleFactory from "../model/example.factory";
 import { createApp } from "@src/app.js";
@@ -34,6 +35,6 @@ describe("retrieve an example", () => {
     expect(response.body._id).toBeDefined();
     expect(response.body.name).toStrictEqual(data[1].name);
     expect(response.body.status).toStrictEqual("active");
-    expect(response.body.createdAt instanceof Date);
+    expect(isValid(new Date(response.body.createdAt))).toBeTruthy();
   });
 });

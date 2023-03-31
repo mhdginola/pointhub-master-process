@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { RetrieveExampleUseCase } from "../use-case/retrieve.use-case";
+import { RetrieveExampleUseCase } from "../use-case/retrieve.use-case.js";
 import { db } from "@src/database/database.js";
 
 export const retrieve = async (req: Request, res: Response, next: NextFunction) => {

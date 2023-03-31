@@ -1,3 +1,4 @@
+import { isValid } from "date-fns";
 import { ObjectId } from "mongodb";
 import { IDatabaseAdapter } from "./connection.js";
 
@@ -41,17 +42,15 @@ export const replaceStringToObjectId = (val: any): any => {
     return val.map((item) => {
       return replaceStringToObjectId(item);
     });
-  } else if (typeof val === "object") {
+  } else if (typeof val === "object" && !isValid(val)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Object.keys(val).reduce((obj: any, key) => {
       const propVal = replaceStringToObjectId(val[key]);
       obj[key] = propVal;
       return obj;
     }, {});
-  } else if (typeof val === "string") {
-    if (ObjectId.isValid(val) && val === new ObjectId(val).toString()) {
-      return new ObjectId(val);
-    }
+  } else if (typeof val === "string" && ObjectId.isValid(val) && val === new ObjectId(val).toString()) {
+    return new ObjectId(val);
   }
 
   return val;
@@ -66,14 +65,10 @@ export const replaceObjectIdToString = (val: any): any => {
     });
   } else if (typeof val === "object" && ObjectId.isValid(val)) {
     return val.toString();
-  } else if (typeof val === "object" && val instanceof Date) {
-    return val;
-  } else if (typeof val === "object") {
+  } else if (typeof val === "object" && !isValid(val)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Object.keys(val).reduce((obj: any, key) => {
-      const propVal = replaceObjectIdToString(val[key]);
-      obj[key] = propVal;
-      if (ObjectId.isValid(val)) {
+      if (ObjectId.isValid(val) || isValid(val)) {
         return val.toString();
       } else {
         const propVal = replaceObjectIdToString(val[key]);

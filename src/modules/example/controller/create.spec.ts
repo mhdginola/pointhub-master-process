@@ -1,3 +1,4 @@
+import { isValid } from "date-fns";
 import request from "supertest";
 import { createApp } from "@src/app.js";
 import { resetDatabase, retrieve } from "@src/test/utils.js";
@@ -23,9 +24,10 @@ describe("create an example", () => {
 
     // expect recorded data
     const exampleRecord = await retrieve("examples", response.body._id);
+
     expect(exampleRecord._id).toStrictEqual(response.body._id);
     expect(exampleRecord.name).toStrictEqual(data.name);
     expect(exampleRecord.status).toStrictEqual("active");
-    expect(exampleRecord.createdAt instanceof Date).toBeTruthy();
+    expect(isValid(new Date(exampleRecord.createdAt))).toBeTruthy();
   });
 });

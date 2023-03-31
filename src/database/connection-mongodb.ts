@@ -159,7 +159,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     }
   }
 
-  public async create(doc: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface> {
+  public async create(document: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
     }
@@ -170,7 +170,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
         w: "majority",
       };
 
-      const response = await this._collection.insertOne(doc, insertOneOptions);
+      const response = await this._collection.insertOne(replaceStringToObjectId(document), insertOneOptions);
 
       return {
         acknowledged: response.acknowledged,
@@ -185,7 +185,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
   }
 
   public async createMany(
-    docs: DocumentInterface[],
+    documents: DocumentInterface[],
     options?: CreateManyOptionsInterface
   ): Promise<CreateManyResultInterface> {
     if (!this._collection) {
@@ -195,7 +195,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     try {
       const bulkWriteOptions = options as BulkWriteOptions;
 
-      const response = await this._collection.insertMany(docs, bulkWriteOptions);
+      const response = await this._collection.insertMany(replaceStringToObjectId(documents), bulkWriteOptions);
 
       const ids: Array<string> = [];
       Object.values(response.insertedIds).forEach((val) => {
@@ -232,12 +232,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
       throw new ApiError(404);
     }
 
-    const { _id, ...newResult } = result;
-
-    return {
-      _id: _id.toString(),
-      ...newResult,
-    };
+    return replaceObjectIdToString(result);
   }
 
   public async readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface> {
@@ -264,7 +259,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     const totalDocument = await this._collection.countDocuments(query.filter ?? {}, readOptions);
 
     return {
-      data: result as Array<unknown> as Array<ReadResultInterface>,
+      data: replaceObjectIdToString(result) as Array<unknown> as Array<ReadResultInterface>,
       pagination: {
         page: page(query.page),
         pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
