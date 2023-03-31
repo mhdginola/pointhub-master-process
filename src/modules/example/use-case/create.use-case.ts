@@ -1,4 +1,4 @@
-import { ExampleEntity } from "../model/example.entity.js";
+import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
 import { ExampleRepository } from "../model/example.repository.js";
 import { validate } from "../validation/create.validation.js";
 import DatabaseConnection, { CreateOptionsInterface, DocumentInterface } from "@src/database/connection.js";
@@ -18,7 +18,7 @@ export class CreateExampleUseCase {
       // save to database
       const exampleEntity = new ExampleEntity({
         name: document.name,
-        status: "active",
+        status: ExampleStatusTypes.Active,
         createdAt: new Date(),
       });
       const exampleRepository = new ExampleRepository(this.db);

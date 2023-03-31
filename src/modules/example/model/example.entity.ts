@@ -1,14 +1,19 @@
+export enum ExampleStatusTypes {
+  Active = "active",
+  Suspended = "suspended",
+}
+
 export interface ExampleEntityInterface {
   _id?: string;
   name?: string;
-  status?: "active" | "suspended";
+  status?: ExampleStatusTypes;
   createdAt?: Date;
 }
 
 export class ExampleEntity implements ExampleEntityInterface {
   public _id?: string;
   public name?: string;
-  public status?: "active" | "suspended";
+  public status?: ExampleStatusTypes;
   public createdAt?: Date;
 
   constructor(example: ExampleEntityInterface) {

@@ -1,4 +1,4 @@
-import { ExampleEntity } from "../model/example.entity.js";
+import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
 import { ExampleRepository } from "../model/example.repository.js";
 import { validate } from "../validation/create-many.validation.js";
 import DatabaseConnection, { CreateManyOptionsInterface, DocumentInterface } from "@src/database/connection.js";
@@ -21,7 +21,7 @@ export class CreateManyExampleUseCase {
         entities.push(
           new ExampleEntity({
             name: document.name,
-            status: "active",
+            status: ExampleStatusTypes.Active,
             createdAt: new Date(),
           })
         );

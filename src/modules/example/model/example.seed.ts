@@ -1,17 +1,19 @@
+import { ExampleStatusTypes } from "./example.entity";
+
 export const exampleSeeds = [
   {
     name: "Example Name 1",
-    status: "active",
+    status: ExampleStatusTypes.Active,
     createdAt: new Date(),
   },
   {
     name: "Example Name 2",
-    status: "active",
+    status: ExampleStatusTypes.Active,
     createdAt: new Date(),
   },
   {
     name: "Example Name 3",
-    status: "active",
+    status: ExampleStatusTypes.Active,
     createdAt: new Date(),
   },
 ];

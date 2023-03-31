@@ -9,7 +9,7 @@ export interface IAppConfig {
 }
 
 const appConfig: IAppConfig = {
-  name: process.env.APP_NAME ?? "",
+  name: `${process.env.APP_NAME}`,
 };
 
 export default appConfig;

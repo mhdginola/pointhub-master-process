@@ -30,8 +30,8 @@ const databaseConfig: IDatabaseConfig = {
   default: "mongodb",
   mongodb: {
     driver: "mongodb",
-    url: process.env.DATABASE_URL as string,
-    name: process.env.DATABASE_NAME as string,
+    url: `${process.env.DATABASE_URL}`,
+    name: `${process.env.DATABASE_NAME}`,
   },
 };
 

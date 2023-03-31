@@ -5,9 +5,14 @@ import { db } from "@src/database/database.js";
 export const retrieve = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const createExampleUseCase = new RetrieveExampleUseCase(db);
-    const result = await createExampleUseCase.handle(req.params);
+    const result = await createExampleUseCase.handle(req.params.id);
 
-    res.status(200).json(result);
+    res.status(200).json({
+      _id: result._id,
+      name: result.name,
+      status: result.status,
+      createdAt: result.createdAt,
+    });
   } catch (error) {
     next(error);
   }
