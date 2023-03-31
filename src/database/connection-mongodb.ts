@@ -44,9 +44,11 @@ import {
   CreateManyResultInterface,
   UpdateManyResultInterface,
   UpdateManyOptionsInterface,
+  CreateManyOptionsInterface,
 } from "./connection.js";
 
 import MongoError from "./mongodb-error-handler.js";
+import { replaceObjectIdToString, replaceStringToObjectId } from "./mongodb-helper.js";
 import { fields, limit, page, skip, sort } from "./mongodb-querystring.js";
 import { IMongoDBConfig } from "@src/config/database.js";
 
@@ -184,7 +186,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
   public async createMany(
     docs: DocumentInterface[],
-    options?: CreateOptionsInterface
+    options?: CreateManyOptionsInterface
   ): Promise<CreateManyResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
@@ -196,7 +198,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
       const response = await this._collection.insertMany(docs, bulkWriteOptions);
 
       const ids: Array<string> = [];
-
       Object.values(response.insertedIds).forEach((val) => {
         ids.push(val.toString());
       });

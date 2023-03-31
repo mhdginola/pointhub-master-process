@@ -13,7 +13,7 @@ describe("create an example", () => {
       name: "Test",
     };
 
-    const response = await request(app).post("/v1/examples").send({ name: data.name });
+    const response = await request(app).post("/v1/examples").send(data);
 
     // expect http response
     expect(response.statusCode).toEqual(201);
@@ -23,9 +23,9 @@ describe("create an example", () => {
 
     // expect recorded data
     const exampleRecord = await retrieve("examples", response.body._id);
-    expect(exampleRecord?._id).toBeDefined();
-    expect(exampleRecord?.name).toBe(data.name);
-    expect(exampleRecord?.status).toBe("active");
-    expect(exampleRecord?.createdAt).toBeDefined();
+    expect(exampleRecord._id).toStrictEqual(response.body._id);
+    expect(exampleRecord.name).toStrictEqual(data.name);
+    expect(exampleRecord.status).toStrictEqual("active");
+    expect(exampleRecord.createdAt instanceof Date).toBeTruthy();
   });
 });

@@ -15,6 +15,8 @@ import DatabaseConnection, {
   AggregateQueryInterface,
   AggregateOptionsInterface,
   DeleteResultInterface,
+  CreateManyOptionsInterface,
+  CreateManyResultInterface,
 } from "@src/database/connection.js";
 
 export class ExampleRepository extends BaseRepository {
@@ -24,6 +26,13 @@ export class ExampleRepository extends BaseRepository {
 
   public async create(document: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface> {
     return await this.collection().create(document, options);
+  }
+
+  public async createMany(
+    documents: Array<DocumentInterface>,
+    options?: CreateManyOptionsInterface
+  ): Promise<CreateManyResultInterface> {
+    return await this.collection().createMany(documents, options);
   }
 
   public async retrieve(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface> {
