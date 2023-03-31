@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CreateManyExampleUseCase } from "../use-case/create-many.use-case.js";
 import { db } from "@src/database/database.js";
 
-export const createMany = async (req: Request, res: Response, next: NextFunction) => {
+export const createManyController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const session = db.startSession();
 

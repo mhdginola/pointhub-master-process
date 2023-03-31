@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CreateExampleUseCase } from "../use-case/create.use-case.js";
 import { db } from "@src/database/database.js";
 
-export const create = async (req: Request, res: Response, next: NextFunction) => {
+export const createController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const session = db.startSession();
 

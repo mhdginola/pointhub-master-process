@@ -3,7 +3,7 @@ import { RetrieveAllExampleUseCase } from "../use-case/retrieve-all.use-case.js"
 import { QueryInterface } from "@src/database/connection.js";
 import { db } from "@src/database/database.js";
 
-export const retrieveAll = async (req: Request, res: Response, next: NextFunction) => {
+export const retrieveAllController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const createExampleUseCase = new RetrieveAllExampleUseCase(db);
     // const query: QueryInterface = {
