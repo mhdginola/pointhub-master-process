@@ -1,4 +1,4 @@
-import { ExampleStatusTypes } from "./example.entity";
+import { ExampleStatusTypes } from "./example.entity.js";
 
 export const exampleSeeds = [
   {
