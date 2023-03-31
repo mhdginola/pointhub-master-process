@@ -1,6 +1,6 @@
 import { ExampleEntity } from "../model/example.entity.js";
 import { ExampleRepository } from "../model/example.repository.js";
-import { validate } from "../validation/create.validation.js";
+import { validate } from "../validation/create-many.validation.js";
 import DatabaseConnection, { CreateManyOptionsInterface, DocumentInterface } from "@src/database/connection.js";
 
 export class CreateManyExampleUseCase {
@@ -13,7 +13,7 @@ export class CreateManyExampleUseCase {
   public async handle(documents: Array<DocumentInterface>, options: CreateManyOptionsInterface) {
     try {
       // validate request body
-      // validate(documents);
+      validate(documents);
 
       // define entity
       const entities = [];
