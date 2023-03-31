@@ -14,6 +14,8 @@ import DatabaseConnection, {
   AggregateOptionsInterface,
   AggregateQueryInterface,
   AggregateResultInterface,
+  CreateManyResultInterface,
+  CreateManyOptionsInterface,
 } from "./connection.js";
 
 export abstract class BaseRepository {
@@ -30,6 +32,10 @@ export abstract class BaseRepository {
   }
 
   abstract create(document: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface>;
+  abstract createMany(
+    documents: Array<DocumentInterface>,
+    options?: CreateManyOptionsInterface
+  ): Promise<CreateManyResultInterface>;
   abstract retrieve(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface>;
   abstract retrieveAll(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface>;
   abstract update(
