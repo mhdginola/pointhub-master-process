@@ -1,5 +1,5 @@
-import MongoDbConnection from "./connection-mongodb.js";
 import DatabaseConnection from "./connection.js";
+import MongoDbConnection from "./mongodb/connection-mongodb.js";
 import databaseConfig from "@src/config/database.js";
 
 const dbConnection = new DatabaseConnection(

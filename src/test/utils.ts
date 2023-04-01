@@ -2,7 +2,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import databaseConfig from "@src/config/database.js";
 import { DocumentInterface } from "@src/database/connection.js";
-import { replaceObjectIdToString, replaceStringToObjectId } from "@src/database/mongodb-helper.js";
+import { replaceObjectIdToString, replaceStringToObjectId } from "@src/database/mongodb/mongodb-helper.js";
 
 export const resetDatabase = async () => {
   const client = await MongoClient.connect(databaseConfig[databaseConfig.default].url);

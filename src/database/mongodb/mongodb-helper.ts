@@ -1,6 +1,6 @@
 import { isValid } from "date-fns";
 import { ObjectId } from "mongodb";
-import { IDatabaseAdapter } from "./connection.js";
+import { IDatabaseAdapter } from "../connection.js";
 
 export class MongoDBHelper {
   private db;

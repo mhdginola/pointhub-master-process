@@ -6,7 +6,7 @@
  * https://www.mongodb.com/developer/products/mongodb/mongodb-schema-design-best-practices/
  */
 import { IDatabaseAdapter } from "@src/database/connection.js";
-import { MongoDBHelper } from "@src/database/mongodb-helper.js";
+import { MongoDBHelper } from "@src/database/mongodb/mongodb-helper.js";
 
 export const collection = "examples";
 

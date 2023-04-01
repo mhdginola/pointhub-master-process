@@ -21,7 +21,10 @@ import {
   DropCollectionOptions,
   MongoServerError,
 } from "mongodb";
-
+import MongoError from "./mongodb-error-handler.js";
+import { replaceObjectIdToString, replaceStringToObjectId } from "./mongodb-helper.js";
+import { fields, limit, page, skip, sort } from "./mongodb-querystring.js";
+import { IMongoDBConfig } from "@src/config/database.js";
 import {
   IDatabaseAdapter,
   DocumentInterface,
@@ -45,12 +48,7 @@ import {
   UpdateManyResultInterface,
   UpdateManyOptionsInterface,
   CreateManyOptionsInterface,
-} from "./connection.js";
-
-import MongoError from "./mongodb-error-handler.js";
-import { replaceObjectIdToString, replaceStringToObjectId } from "./mongodb-helper.js";
-import { fields, limit, page, skip, sort } from "./mongodb-querystring.js";
-import { IMongoDBConfig } from "@src/config/database.js";
+} from "@src/database/connection.js";
 
 export default class MongoDbConnection implements IDatabaseAdapter {
   public client: MongoClient;
@@ -144,7 +142,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
   public async createCollections(): Promise<void> {
     const object = await fileSearch("/*.schema.ts", "./src/modules", { maxDeep: 2, regExp: true });
     for (const property in object) {
-      const path = `../modules/${object[property].path.replace("\\", "/").replace(".ts", ".js")}`;
+      const path = `../../modules/${object[property].path.replace("\\", "/").replace(".ts", ".js")}`;
       const { createCollection } = await import(path);
       await createCollection(this);
     }
@@ -153,7 +151,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
   public async dropCollections(): Promise<void> {
     const object = await fileSearch("/*.schema.ts", "./src/modules", { maxDeep: 2, regExp: true });
     for (const property in object) {
-      const path = `../modules/${object[property].path.replace("\\", "/").replace(".ts", ".js")}`;
+      const path = `../../modules/${object[property].path.replace("\\", "/").replace(".ts", ".js")}`;
       const { dropCollection } = await import(path);
       await dropCollection(this);
     }
