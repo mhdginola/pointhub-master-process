@@ -17,10 +17,10 @@ export interface OptionsInterface {
 }
 export type CreateOptionsInterface = OptionsInterface;
 export type CreateManyOptionsInterface = OptionsInterface;
-export interface ReadOptionsInterface extends OptionsInterface {
+export interface RetrieveOptionsInterface extends OptionsInterface {
   projection?: unknown;
 }
-export type ReadManyOptionsInterface = OptionsInterface;
+export type RetrieveAllOptionsInterface = OptionsInterface;
 export type UpdateOptionsInterface = OptionsInterface;
 export type UpdateManyOptionsInterface = OptionsInterface;
 export type DeleteOptionsInterface = OptionsInterface;
@@ -38,13 +38,13 @@ export interface CreateManyResultInterface {
   insertedIds: Array<string>;
 }
 
-export interface ReadResultInterface {
+export interface RetrieveResultInterface {
   _id: string;
   [key: string]: unknown;
 }
 
-export interface ReadManyResultInterface {
-  data: Array<ReadResultInterface>;
+export interface RetrieveAllResultInterface {
+  data: Array<RetrieveResultInterface>;
   pagination: {
     page: number;
     pageCount: number;
@@ -83,7 +83,7 @@ export interface AggregateQueryInterface {
 }
 
 export interface AggregateResultInterface {
-  data: Array<ReadResultInterface>;
+  data: Array<RetrieveResultInterface>;
   pagination: {
     page: number;
     pageCount: number;
@@ -113,8 +113,8 @@ export interface IDatabaseAdapter {
   abortTransaction(): Promise<this>;
   create(document: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface>;
   createMany(documents: Array<DocumentInterface>, options?: CreateOptionsInterface): Promise<CreateManyResultInterface>;
-  read(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface>;
-  readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface>;
+  retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface>;
+  retrieveAll(query: QueryInterface, options?: RetrieveAllOptionsInterface): Promise<RetrieveAllResultInterface>;
   update(id: string, document: DocumentInterface, options?: UpdateOptionsInterface): Promise<UpdateResultInterface>;
   updateMany(
     filter: DocumentInterface,
@@ -234,12 +234,15 @@ export default class DatabaseConnection {
     return await this.adapter.createMany(documents, options);
   }
 
-  public async read(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface> {
-    return await this.adapter.read(id, options);
+  public async retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface> {
+    return await this.adapter.retrieve(id, options);
   }
 
-  public async readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface> {
-    return await this.adapter.readMany(query, options);
+  public async retrieveAll(
+    query: QueryInterface,
+    options?: RetrieveAllOptionsInterface
+  ): Promise<RetrieveAllResultInterface> {
+    return await this.adapter.retrieveAll(query, options);
   }
 
   public async update(

@@ -2,13 +2,13 @@ import DatabaseConnection, {
   DocumentInterface,
   QueryInterface,
   CreateResultInterface,
-  ReadResultInterface,
-  ReadManyResultInterface,
+  RetrieveResultInterface,
+  RetrieveAllResultInterface,
   UpdateResultInterface,
   DeleteResultInterface,
   CreateOptionsInterface,
-  ReadOptionsInterface,
-  ReadManyOptionsInterface,
+  RetrieveOptionsInterface,
+  RetrieveAllOptionsInterface,
   UpdateOptionsInterface,
   DeleteOptionsInterface,
   AggregateOptionsInterface,
@@ -36,8 +36,8 @@ export abstract class BaseRepository {
     documents: Array<DocumentInterface>,
     options?: CreateManyOptionsInterface
   ): Promise<CreateManyResultInterface>;
-  abstract retrieve(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface>;
-  abstract retrieveAll(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface>;
+  abstract retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface>;
+  abstract retrieveAll(query: QueryInterface, options?: RetrieveAllOptionsInterface): Promise<RetrieveAllResultInterface>;
   abstract update(
     id: string,
     document: DocumentInterface,

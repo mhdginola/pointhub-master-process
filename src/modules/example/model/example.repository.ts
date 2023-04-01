@@ -4,12 +4,12 @@ import DatabaseConnection, {
   DeleteOptionsInterface,
   DocumentInterface,
   QueryInterface,
-  ReadManyOptionsInterface,
-  ReadOptionsInterface,
+  RetrieveAllOptionsInterface,
+  RetrieveOptionsInterface,
   UpdateOptionsInterface,
   CreateResultInterface,
-  ReadResultInterface,
-  ReadManyResultInterface,
+  RetrieveResultInterface,
+  RetrieveAllResultInterface,
   UpdateResultInterface,
   AggregateResultInterface,
   AggregateQueryInterface,
@@ -35,15 +35,15 @@ export class ExampleRepository extends BaseRepository {
     return await this.collection().createMany(documents, options);
   }
 
-  public async retrieve(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface> {
-    return await this.collection().read(id, options);
+  public async retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface> {
+    return await this.collection().retrieve(id, options);
   }
 
   public async retrieveAll(
     query: QueryInterface,
-    options?: ReadManyOptionsInterface
-  ): Promise<ReadManyResultInterface> {
-    return await this.collection().readMany(query, options);
+    options?: RetrieveAllOptionsInterface
+  ): Promise<RetrieveAllResultInterface> {
+    return await this.collection().retrieveAll(query, options);
   }
 
   public async update(

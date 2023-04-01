@@ -31,12 +31,12 @@ import {
   QueryInterface,
   DeleteResultInterface,
   UpdateResultInterface,
-  ReadManyResultInterface,
-  ReadResultInterface,
+  RetrieveAllResultInterface,
+  RetrieveResultInterface,
   CreateResultInterface,
   CreateOptionsInterface,
-  ReadOptionsInterface,
-  ReadManyOptionsInterface,
+  RetrieveOptionsInterface,
+  RetrieveAllOptionsInterface,
   UpdateOptionsInterface,
   DeleteOptionsInterface,
   AggregateOptionsInterface,
@@ -213,17 +213,17 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     }
   }
 
-  public async read(id: string, options?: ReadOptionsInterface): Promise<ReadResultInterface> {
+  public async retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
     }
 
-    const readOptions = options as FindOptions;
+    const retrieveOptions = options as FindOptions;
     const result = await this._collection.findOne(
       {
         _id: new ObjectId(id),
       },
-      readOptions
+      retrieveOptions
     );
 
     if (!result) {
@@ -233,14 +233,17 @@ export default class MongoDbConnection implements IDatabaseAdapter {
     return replaceObjectIdToString(result);
   }
 
-  public async readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface> {
+  public async retrieveAll(
+    query: QueryInterface,
+    options?: RetrieveAllOptionsInterface
+  ): Promise<RetrieveAllResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
     }
 
-    const readOptions = options as FindOptions;
+    const retrieveOptions = options as FindOptions;
     const cursor = this._collection
-      .find(query.filter ?? {}, readOptions)
+      .find(query.filter ?? {}, retrieveOptions)
       .limit(limit(query.pageSize))
       .skip(skip(page(query.page), limit(query.pageSize)));
 
@@ -254,10 +257,10 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
     const result = await cursor.toArray();
 
-    const totalDocument = await this._collection.countDocuments(query.filter ?? {}, readOptions);
+    const totalDocument = await this._collection.countDocuments(query.filter ?? {}, retrieveOptions);
 
     return {
-      data: replaceObjectIdToString(result) as Array<unknown> as Array<ReadResultInterface>,
+      data: replaceObjectIdToString(result) as Array<unknown> as Array<RetrieveResultInterface>,
       pagination: {
         page: page(query.page),
         pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
@@ -415,7 +418,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
     const totalDocument = resultPagination.length ? resultPagination[0].totalDocument : 0;
     return {
-      data: result as Array<ReadResultInterface>,
+      data: result as Array<RetrieveResultInterface>,
       pagination: {
         page: page(query.page),
         pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
