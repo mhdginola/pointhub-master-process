@@ -8,6 +8,7 @@ export interface ExampleEntityInterface {
   name?: string;
   status?: ExampleStatusTypes;
   createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export class ExampleEntity implements ExampleEntityInterface {
@@ -15,11 +16,13 @@ export class ExampleEntity implements ExampleEntityInterface {
   public name?: string;
   public status?: ExampleStatusTypes;
   public createdAt?: Date;
+  public updatedAt?: Date;
 
   constructor(example: ExampleEntityInterface) {
     this._id = example._id;
     this.name = example.name;
     this.status = example.status;
     this.createdAt = example.createdAt;
+    this.updatedAt = example.updatedAt;
   }
 }

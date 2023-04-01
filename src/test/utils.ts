@@ -24,7 +24,7 @@ export const retrieve = async (collection: string, _id: string): Promise<Documen
   return replaceObjectIdToString(response);
 };
 
-export const retrieveAll = async (collection: string, filter: object): Promise<Array<DocumentInterface>> => {
+export const retrieveAll = async (collection: string, filter: object = {}): Promise<Array<DocumentInterface>> => {
   const client = await MongoClient.connect(databaseConfig[databaseConfig.default].url);
   const db = client.db(databaseConfig[databaseConfig.default].name);
   const response = await db.collection(collection).find(replaceStringToObjectId(filter)).toArray();

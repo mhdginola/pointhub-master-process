@@ -1,5 +1,6 @@
 import { isValid } from "date-fns";
 import request from "supertest";
+import { ExampleStatusTypes } from "../model/example.entity.js";
 import { createApp } from "@src/app.js";
 import { resetDatabase, retrieve } from "@src/test/utils.js";
 
@@ -27,7 +28,7 @@ describe("create an example", () => {
 
     expect(exampleRecord._id).toStrictEqual(response.body._id);
     expect(exampleRecord.name).toStrictEqual(data.name);
-    expect(exampleRecord.status).toStrictEqual("active");
+    expect(exampleRecord.status).toStrictEqual(ExampleStatusTypes.Active);
     expect(isValid(new Date(exampleRecord.createdAt))).toBeTruthy();
   });
 });

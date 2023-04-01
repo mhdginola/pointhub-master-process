@@ -287,7 +287,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
       return {
         acknowledged: result.acknowledged,
         modifiedCount: result.modifiedCount,
-        upsertedId: result.upsertedId.toString(),
+        upsertedId: result.upsertedId?.toString(),
         upsertedCount: result.upsertedCount,
         matchedCount: result.matchedCount,
       };

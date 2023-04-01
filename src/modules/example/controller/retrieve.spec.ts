@@ -1,6 +1,7 @@
 import { isValid } from "date-fns";
 import request from "supertest";
-import ExampleFactory from "../model/example.factory";
+import { ExampleStatusTypes } from "../model/example.entity.js";
+import ExampleFactory from "../model/example.factory.js";
 import { createApp } from "@src/app.js";
 import { resetDatabase } from "@src/test/utils.js";
 
@@ -34,7 +35,7 @@ describe("retrieve an example", () => {
     // expect response json
     expect(response.body._id).toBeDefined();
     expect(response.body.name).toStrictEqual(data[1].name);
-    expect(response.body.status).toStrictEqual("active");
+    expect(response.body.status).toStrictEqual(ExampleStatusTypes.Active);
     expect(isValid(new Date(response.body.createdAt))).toBeTruthy();
   });
 });
