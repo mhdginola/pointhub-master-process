@@ -1,8 +1,9 @@
+import { faker } from "@faker-js/faker";
 import { isValid } from "date-fns";
 import request from "supertest";
 import ExampleFactory from "../model/example.factory";
 import { createApp } from "@src/app.js";
-import { resetDatabase, retrieve } from "@src/test/utils.js";
+import { resetDatabase, retrieve, retrieveAll } from "@src/test/utils.js";
 
 describe("retrieve an example", () => {
   beforeEach(async () => {
@@ -11,23 +12,13 @@ describe("retrieve an example", () => {
   it("should be able to retrieve an example", async () => {
     const app = await createApp();
 
-    const exampleFactory = new ExampleFactory();
-    const data = [
-      {
-        name: "John Doe",
-      },
-      {
-        name: "Jane",
-      },
-      {
-        name: "Charles",
-      },
-    ];
+    const resultFactory = await new ExampleFactory().createMany(3);
+
+    const data = await retrieveAll("examples");
+
     const updateData = {
-      name: "Edited Jane",
+      name: faker.name.fullName(),
     };
-    exampleFactory.sequence(data);
-    const resultFactory = await exampleFactory.createMany(3);
 
     const response = await request(app).patch(`/v1/examples/${resultFactory.insertedIds[1]}`).send(updateData);
 
