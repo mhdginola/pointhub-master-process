@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { isValid } from "date-fns";
 import request from "supertest";
 import { ExampleStatusTypes } from "../model/example.entity.js";
@@ -13,13 +14,13 @@ describe("create many examples", () => {
 
     const data = [
       {
-        name: "Test 1",
+        name: faker.name.fullName(),
       },
       {
-        name: "Test 2",
+        name: faker.name.fullName(),
       },
       {
-        name: "Test 3",
+        name: faker.name.fullName(),
       },
     ];
 

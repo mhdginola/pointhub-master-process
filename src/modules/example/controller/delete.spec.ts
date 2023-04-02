@@ -11,18 +11,6 @@ describe("retrieve an example", () => {
     const app = await createApp();
 
     const exampleFactory = new ExampleFactory();
-    const data = [
-      {
-        name: "John Doe",
-      },
-      {
-        name: "Jane",
-      },
-      {
-        name: "Charles",
-      },
-    ];
-    exampleFactory.sequence(data);
     const resultFactory = await exampleFactory.createMany(3);
 
     const response = await request(app).delete(`/v1/examples/${resultFactory.insertedIds[1]}`);

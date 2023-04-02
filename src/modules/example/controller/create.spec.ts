@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { isValid } from "date-fns";
 import request from "supertest";
 import { ExampleStatusTypes } from "../model/example.entity.js";
@@ -12,7 +13,7 @@ describe("create an example", () => {
     const app = await createApp();
 
     const data = {
-      name: "Test",
+      name: faker.name.fullName(),
     };
 
     const response = await request(app).post("/v1/examples").send(data);

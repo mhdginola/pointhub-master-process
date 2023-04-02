@@ -3,7 +3,7 @@ import request from "supertest";
 import { ExampleStatusTypes } from "../model/example.entity.js";
 import ExampleFactory from "../model/example.factory.js";
 import { createApp } from "@src/app.js";
-import { resetDatabase } from "@src/test/utils.js";
+import { resetDatabase, retrieveAll } from "@src/test/utils.js";
 
 describe("retrieve an example", () => {
   beforeEach(async () => {
@@ -13,19 +13,8 @@ describe("retrieve an example", () => {
     const app = await createApp();
 
     const exampleFactory = new ExampleFactory();
-    const data = [
-      {
-        name: "John Doe",
-      },
-      {
-        name: "Jane",
-      },
-      {
-        name: "Charles",
-      },
-    ];
-    exampleFactory.sequence(data);
     const resultFactory = await exampleFactory.createMany(3);
+    const data = await retrieveAll("examples");
 
     const response = await request(app).get(`/v1/examples/${resultFactory.insertedIds[1]}`);
 
