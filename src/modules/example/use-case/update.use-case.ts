@@ -1,6 +1,6 @@
 import { objClean } from "@point-hub/express-utils";
 import { ExampleEntity } from "../model/example.entity.js";
-import { ExampleRepository } from "../model/example.repository.js";
+import { UpdateExampleRepository } from "../model/repository/update.repository.js";
 import { validate } from "../validation/update.validation.js";
 import DatabaseConnection, { UpdateOptionsInterface, DocumentInterface } from "@src/database/connection.js";
 
@@ -22,8 +22,8 @@ export class UpdateExampleUseCase {
         updatedAt: new Date(),
       });
 
-      const exampleRepository = new ExampleRepository(this.db);
-      await exampleRepository.update(id, objClean(exampleEntity), options);
+      const exampleRepository = new UpdateExampleRepository(this.db);
+      await exampleRepository.handle(id, objClean(exampleEntity), options);
 
       return;
     } catch (error) {

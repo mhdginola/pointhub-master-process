@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
 import Factory from "@point-hub/express-factory";
 import { ExampleEntityInterface, ExampleStatusTypes } from "./example.entity.js";
-import { ExampleRepository } from "./example.repository.js";
+import { CreateManyExampleRepository } from "./repository/create-many.repository.js";
+import { CreateExampleRepository } from "./repository/create.repository.js";
 import { db } from "@src/database/database.js";
 
 export default class ExampleFactory extends Factory<ExampleEntityInterface> {
@@ -14,12 +15,12 @@ export default class ExampleFactory extends Factory<ExampleEntityInterface> {
   }
 
   async create() {
-    const exampleRepository = new ExampleRepository(db);
-    return await exampleRepository.create(this.makeOne());
+    const exampleRepository = new CreateExampleRepository(db);
+    return await exampleRepository.handle(this.makeOne());
   }
 
   async createMany(count: number) {
-    const exampleRepository = new ExampleRepository(db);
-    return await exampleRepository.createMany(this.makeMany(count));
+    const exampleRepository = new CreateManyExampleRepository(db);
+    return await exampleRepository.handle(this.makeMany(count));
   }
 }

@@ -1,5 +1,5 @@
 import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
-import { ExampleRepository } from "../model/example.repository.js";
+import { CreateManyExampleRepository } from "../model/repository/create-many.repository.js";
 import { validate } from "../validation/create-many.validation.js";
 import DatabaseConnection, { CreateManyOptionsInterface, DocumentInterface } from "@src/database/connection.js";
 
@@ -28,8 +28,7 @@ export class CreateManyExampleUseCase {
       }
 
       // save to database
-      const exampleRepository = new ExampleRepository(this.db);
-      const response = await exampleRepository.createMany(entities, options);
+      const response = await new CreateManyExampleRepository(this.db).handle(entities, options);
 
       return {
         acknowledged: response.acknowledged,

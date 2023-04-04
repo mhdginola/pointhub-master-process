@@ -287,8 +287,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
       return {
         acknowledged: result.acknowledged,
         modifiedCount: result.modifiedCount,
-        upsertedId: result.upsertedId?.toString(),
-        upsertedCount: result.upsertedCount,
         matchedCount: result.matchedCount,
       };
     } catch (error) {
@@ -305,17 +303,16 @@ export default class MongoDbConnection implements IDatabaseAdapter {
    */
   public async updateMany(
     filter: DocumentInterface,
-    documents: Array<DocumentInterface>,
+    updateFilter: DocumentInterface,
     options?: UpdateManyOptionsInterface
   ): Promise<UpdateManyResultInterface> {
     if (!this._collection) {
       throw new Error("Collection not found");
     }
 
-    const updateOptions = options as UpdateOptions;
-
+    const updateManyOptions = options as UpdateOptions;
     try {
-      const result = await this._collection.updateMany(filter, { $set: documents }, updateOptions);
+      const result = await this._collection.updateMany(filter, updateFilter, updateManyOptions);
 
       return {
         acknowledged: result.acknowledged,

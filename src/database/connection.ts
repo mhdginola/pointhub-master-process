@@ -57,8 +57,6 @@ export interface UpdateResultInterface {
   acknowledged: boolean;
   matchedCount: number;
   modifiedCount: number;
-  upsertedId: string | null;
-  upsertedCount: number;
 }
 
 export interface UpdateManyResultInterface {
@@ -118,7 +116,7 @@ export interface IDatabaseAdapter {
   update(id: string, document: DocumentInterface, options?: UpdateOptionsInterface): Promise<UpdateResultInterface>;
   updateMany(
     filter: DocumentInterface,
-    documents: Array<DocumentInterface>,
+    documents: DocumentInterface,
     options?: UpdateManyOptionsInterface
   ): Promise<UpdateManyResultInterface>;
   delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface>;
@@ -255,10 +253,10 @@ export default class DatabaseConnection {
 
   public async updateMany(
     filter: DocumentInterface,
-    documents: Array<DocumentInterface>,
+    document: DocumentInterface,
     options?: UpdateManyOptionsInterface
   ): Promise<UpdateManyResultInterface> {
-    return await this.adapter.updateMany(filter, documents, options);
+    return await this.adapter.updateMany(filter, document, options);
   }
 
   public async delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface> {

@@ -1,5 +1,5 @@
 import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
-import { ExampleRepository } from "../model/example.repository.js";
+import { CreateExampleRepository } from "../model/repository/create.repository.js";
 import { validate } from "../validation/create.validation.js";
 import DatabaseConnection, { CreateOptionsInterface, DocumentInterface } from "@src/database/connection.js";
 
@@ -21,8 +21,8 @@ export class CreateExampleUseCase {
         status: ExampleStatusTypes.Active,
         createdAt: new Date(),
       });
-      const exampleRepository = new ExampleRepository(this.db);
-      const response = await exampleRepository.create(exampleEntity, options);
+
+      const response = await new CreateExampleRepository(this.db).handle(exampleEntity, options);
 
       return {
         acknowledged: response.acknowledged,

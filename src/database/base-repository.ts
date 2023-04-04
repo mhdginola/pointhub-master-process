@@ -37,7 +37,10 @@ export abstract class BaseRepository {
     options?: CreateManyOptionsInterface
   ): Promise<CreateManyResultInterface>;
   abstract retrieve(id: string, options?: RetrieveOptionsInterface): Promise<RetrieveResultInterface>;
-  abstract retrieveAll(query: QueryInterface, options?: RetrieveAllOptionsInterface): Promise<RetrieveAllResultInterface>;
+  abstract retrieveAll(
+    query: QueryInterface,
+    options?: RetrieveAllOptionsInterface
+  ): Promise<RetrieveAllResultInterface>;
   abstract update(
     id: string,
     document: DocumentInterface,

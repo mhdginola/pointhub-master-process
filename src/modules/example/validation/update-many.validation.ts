@@ -6,9 +6,8 @@ import { DocumentInterface } from "@src/database/connection.js";
 export const validate = (document: DocumentInterface = {}) => {
   try {
     const validation = new Validatorjs(document, {
-      name: "required",
+      "filter.name": "required",
     });
-
     if (validation.fails()) {
       throw new ApiError(422, validation.errors.errors);
     }

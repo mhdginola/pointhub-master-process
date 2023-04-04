@@ -18,6 +18,37 @@
 ## Services
 - [MongoDB](https://www.mongodb.com/docs/drivers/node/current/)
 
+## Directory Structure
+
+```bash
+PAPI-STARTER
+├── build
+├── coverage
+├── node_modules
+├── src
+│   ├── assets
+│   ├── config
+│   ├── database
+│   ├── middleware
+│   ├── modules
+│   │   └── example
+│   │       ├── controller
+│   │       ├── model
+│   │       ├── use-case
+│   │       ├── validation
+│   │       └── router.ts
+│   ├── services
+│   └── test
+│       ├── setup.ts
+│       ├── teardown.ts
+│       └── utils.ts
+├── .env
+├── .env.example
+├── .env.text
+├── .env.test.example
+└── README.md
+```
+
 ## Contribution Guide
 
 ---

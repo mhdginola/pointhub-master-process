@@ -1,4 +1,4 @@
-import { ExampleRepository } from "../model/example.repository.js";
+import { DeleteExampleRepository } from "../model/repository/delete.repository.js";
 import DatabaseConnection, { DeleteOptionsInterface } from "@src/database/connection.js";
 
 export class DeleteExampleUseCase {
@@ -10,8 +10,7 @@ export class DeleteExampleUseCase {
 
   public async handle(id: string, options: DeleteOptionsInterface) {
     try {
-      const exampleRepository = new ExampleRepository(this.db);
-      const response = await exampleRepository.delete(id, options);
+      const response = await new DeleteExampleRepository(this.db).handle(id, options);
 
       return {
         acknowledged: response.acknowledged,

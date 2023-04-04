@@ -1,27 +1,36 @@
-import { BaseRepository } from "@src/database/base-repository.js";
 import DatabaseConnection, {
-  CreateOptionsInterface,
-  DeleteOptionsInterface,
   DocumentInterface,
   QueryInterface,
-  RetrieveAllOptionsInterface,
-  RetrieveOptionsInterface,
-  UpdateOptionsInterface,
   CreateResultInterface,
   RetrieveResultInterface,
   RetrieveAllResultInterface,
   UpdateResultInterface,
-  AggregateResultInterface,
-  AggregateQueryInterface,
-  AggregateOptionsInterface,
   DeleteResultInterface,
-  CreateManyOptionsInterface,
+  CreateOptionsInterface,
+  RetrieveOptionsInterface,
+  RetrieveAllOptionsInterface,
+  UpdateOptionsInterface,
+  DeleteOptionsInterface,
+  AggregateOptionsInterface,
+  AggregateQueryInterface,
+  AggregateResultInterface,
   CreateManyResultInterface,
-} from "@src/database/connection.js";
+  CreateManyOptionsInterface,
+  UpdateManyOptionsInterface,
+  UpdateManyResultInterface,
+} from "./connection.js";
 
-export class ExampleRepository extends BaseRepository {
-  constructor(db: DatabaseConnection) {
-    super(db, "examples");
+export default class DatabaseManager {
+  public databaseConnection: DatabaseConnection;
+  public collectionName: string;
+
+  constructor(databaseConnection: DatabaseConnection, collectionName: string) {
+    this.databaseConnection = databaseConnection;
+    this.collectionName = collectionName;
+  }
+
+  private collection() {
+    return this.databaseConnection.collection(this.collectionName);
   }
 
   public async create(document: DocumentInterface, options?: CreateOptionsInterface): Promise<CreateResultInterface> {
@@ -52,6 +61,14 @@ export class ExampleRepository extends BaseRepository {
     options?: UpdateOptionsInterface
   ): Promise<UpdateResultInterface> {
     return await this.collection().update(id, document, options);
+  }
+
+  public async updateMany(
+    filter: DocumentInterface,
+    document: DocumentInterface,
+    options?: UpdateManyOptionsInterface
+  ): Promise<UpdateManyResultInterface> {
+    return await this.collection().updateMany(filter, document, options);
   }
 
   public async delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface> {
