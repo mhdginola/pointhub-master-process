@@ -350,14 +350,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
   /**
    * Removes all documents that match the filter from a collection.
    * https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/
-   * 
-   * Example
-   * Remove multiple ids
-   * db.collection.remove( { _id : { $in: [
-    ObjectId("51ee3966e4b056fe8f074f48"), 
-    ObjectId("51ee3966e4b056fe8f074f4a"), 
-    ObjectId("51ee3966e4b056fe8f074f4b") 
-] } } );
    */
   public async deleteMany(
     filter: DocumentInterface,
@@ -369,7 +361,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
     const deleteOptions = options as DeleteOptions;
 
-    const result = await this._collection.deleteMany(filter, deleteOptions);
+    const result = await this._collection.deleteMany(replaceStringToObjectId(filter), deleteOptions);
 
     return {
       acknowledged: result.acknowledged,

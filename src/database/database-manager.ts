@@ -75,6 +75,10 @@ export default class DatabaseManager {
     return await this.collection().delete(id, options);
   }
 
+  public async deleteMany(filter: DocumentInterface, options?: DeleteOptionsInterface): Promise<DeleteResultInterface> {
+    return await this.collection().deleteMany(filter, options);
+  }
+
   public async aggregate(
     pipeline: never,
     query: AggregateQueryInterface,

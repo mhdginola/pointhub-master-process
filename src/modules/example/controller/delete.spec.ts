@@ -3,11 +3,11 @@ import ExampleFactory from "../model/example.factory";
 import { createApp } from "@src/app.js";
 import { resetDatabase, retrieve, retrieveAll } from "@src/test/utils.js";
 
-describe("retrieve an example", () => {
+describe("delete an example", () => {
   beforeEach(async () => {
     await resetDatabase();
   });
-  it("should be able to retrieve an example", async () => {
+  it("should be able to delete an example", async () => {
     const app = await createApp();
 
     const exampleFactory = new ExampleFactory();
