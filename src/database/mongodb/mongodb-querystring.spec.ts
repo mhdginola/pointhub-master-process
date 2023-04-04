@@ -12,12 +12,12 @@ describe("field", () => {
     });
   });
 
-  it("add restricted fields to the object", async () => {
+  it("add excluded fields to the object", async () => {
     const obj = { name: 1, password: 1 };
-    const restricted = ["password"];
+    const excluded = ["password"];
     const result = {
       ...obj,
-      ...filterExludeFields(obj, restricted),
+      ...filterExludeFields(obj, excluded),
     };
     expect(result).toStrictEqual({
       name: 1,

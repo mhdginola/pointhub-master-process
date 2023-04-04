@@ -24,7 +24,7 @@ describe("delete many examples", () => {
 
     // expect response json
     expect(response.body).toStrictEqual({});
-    console.log(resultFactory);
+
     // expect recorded data
     const exampleRecord1 = await retrieve("examples", resultFactory.insertedIds[0]);
     expect(exampleRecord1).toBeNull();

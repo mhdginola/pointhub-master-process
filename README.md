@@ -16,7 +16,7 @@
 - [Prettier](https://prettier.io/) for code formatting
 
 ## Services
-- [MongoDB](https://www.mongodb.com/docs/drivers/node/current/)
+- [MongoDB](https://www.mongodb.com/docs/drivers/node/current/) Database
 
 ## Directory Structure
 

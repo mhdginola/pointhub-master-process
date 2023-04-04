@@ -95,7 +95,7 @@ export function convertArrayToObject(array: Array<string>): FieldsObjectInterfac
 }
 
 /**
- * Remove restricted fields
+ * Remove excluded fields
  *
  * @example
  * ex: { password: 0 }
