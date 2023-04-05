@@ -15,12 +15,18 @@ describe("create many examples", () => {
     const data = [
       {
         name: faker.name.fullName(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
       },
       {
         name: faker.name.fullName(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
       },
       {
         name: faker.name.fullName(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
       },
     ];
 

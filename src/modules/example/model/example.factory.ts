@@ -9,6 +9,8 @@ export default class ExampleFactory extends Factory<ExampleEntityInterface> {
   definition() {
     return {
       name: faker.name.fullName(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       status: ExampleStatusTypes.Active,
       createdAt: new Date(),
     };

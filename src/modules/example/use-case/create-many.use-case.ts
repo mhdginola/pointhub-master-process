@@ -1,3 +1,4 @@
+import { objClean } from "@point-hub/express-utils";
 import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
 import { CreateManyExampleRepository } from "../model/repository/create-many.repository.js";
 import { validate } from "../validation/create-many.validation.js";
@@ -19,11 +20,15 @@ export class CreateManyExampleUseCase {
       const entities = [];
       for (const document of documents) {
         entities.push(
-          new ExampleEntity({
-            name: document.name,
-            status: ExampleStatusTypes.Active,
-            createdAt: new Date(),
-          })
+          objClean(
+            new ExampleEntity({
+              name: document.name,
+              firstName: document.firstName,
+              lastName: document.lastName,
+              status: ExampleStatusTypes.Active,
+              createdAt: new Date(),
+            })
+          )
         );
       }
 

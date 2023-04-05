@@ -10,6 +10,8 @@ export const validate = (documents: Array<DocumentInterface>) => {
     };
     const validation = new Validatorjs(examples, {
       "example.*.name": "required",
+      "example.*.firstName": "required",
+      "example.*.lastName": "required",
     });
     if (validation.fails()) {
       throw new ApiError(422, validation.errors.errors);

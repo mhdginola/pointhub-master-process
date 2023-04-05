@@ -104,6 +104,12 @@ node cli db:seed
 
 ### Testing
 
+Setup Database Schema
+
+```bash
+node cli db:init --db-name="starterTestDB"
+```
+
 Testing all test case
 
 ```bash

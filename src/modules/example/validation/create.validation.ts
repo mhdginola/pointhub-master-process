@@ -7,6 +7,8 @@ export const validate = (document: DocumentInterface) => {
   try {
     const validation = new Validatorjs(document, {
       name: "required",
+      firstName: "required",
+      lastName: "required",
     });
 
     if (validation.fails()) {

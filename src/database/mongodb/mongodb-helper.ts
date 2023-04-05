@@ -2,6 +2,12 @@ import { isValid } from "date-fns";
 import { ObjectId } from "mongodb";
 import { IDatabaseAdapter } from "../connection.js";
 
+/**
+ * https://www.mongodb.com/docs/drivers/node/current/fundamentals/indexes/
+ * https://www.mongodb.com/docs/manual/reference/collation/
+ * https://www.mongodb.com/docs/manual/core/index-sparse/
+ * https://www.mongodb.com/docs/manual/core/index-partial/
+ */
 export class MongoDBHelper {
   private db;
 
@@ -9,22 +15,25 @@ export class MongoDBHelper {
     this.db = db;
   }
 
-  /**
-   * https://www.mongodb.com/docs/drivers/node/current/fundamentals/indexes/
-   * https://www.mongodb.com/docs/manual/reference/collation/
-   */
-  public async createUnique(collection: string, property: string) {
-    await this.db.createIndex(
-      collection,
-      { [property]: -1 },
-      {
-        unique: true,
-        collation: {
-          locale: "en",
-          strength: 2,
-        },
-      }
-    );
+  public async createUnique(collection: string, properties: object) {
+    await this.db.createIndex(collection, properties, {
+      unique: true,
+      collation: {
+        locale: "en",
+        strength: 2,
+      },
+    });
+  }
+
+  public async createUniqueIfNotNull(collection: string, properties: object) {
+    await this.db.createIndex(collection, properties, {
+      unique: true,
+      sparse: true,
+      collation: {
+        locale: "en",
+        strength: 2,
+      },
+    });
   }
 
   public async isExists(name: string) {

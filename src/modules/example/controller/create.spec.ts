@@ -14,6 +14,8 @@ describe("create an example", () => {
 
     const data = {
       name: faker.name.fullName(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
     };
 
     const response = await request(app).post("/v1/examples").send(data);

@@ -1,3 +1,4 @@
+import { objClean } from "@point-hub/express-utils";
 import { ExampleEntity, ExampleStatusTypes } from "../model/example.entity.js";
 import { CreateExampleRepository } from "../model/repository/create.repository.js";
 import { validate } from "../validation/create.validation.js";
@@ -16,11 +17,16 @@ export class CreateExampleUseCase {
       validate(document);
 
       // save to database
-      const exampleEntity = new ExampleEntity({
-        name: document.name,
-        status: ExampleStatusTypes.Active,
-        createdAt: new Date(),
-      });
+      const exampleEntity = objClean(
+        new ExampleEntity({
+          name: document.name,
+          firstName: document.firstName,
+          lastName: document.lastName,
+          optionalUniqueColumn: document.optionalUniqueColumn,
+          status: ExampleStatusTypes.Active,
+          createdAt: new Date(),
+        })
+      );
 
       const response = await new CreateExampleRepository(this.db).handle(exampleEntity, options);
 
