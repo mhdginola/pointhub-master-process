@@ -12,7 +12,18 @@ describe("create an expedition", () => {
     const app = await createApp();
 
     const data = {
-      name: faker.name.fullName(),
+      code: faker.datatype.uuid(),
+      name: faker.name.firstName(),
+      address: faker.address.street(),
+      phone: faker.phone.number(),
+      email: faker.internet.email(),
+      contactPerson: faker.name.fullName(),
+      bank: {
+        name: faker.company.name(),
+        branch: faker.address.streetName(),
+        accountNumber: faker.finance.account(),
+        accountName: faker.finance.accountName(),
+      },
     };
 
     const response = await request(app).post("/v1/expeditions").send(data);
@@ -36,6 +47,7 @@ describe("create an expedition", () => {
     expect(expeditionRecord.bank.name).toStrictEqual(data.bank.name);
     expect(expeditionRecord.bank.branch).toStrictEqual(data.bank.branch);
     expect(expeditionRecord.bank.accountNumber).toStrictEqual(data.bank.accountNumber);
+    expect(expeditionRecord.bank.accountName).toStrictEqual(data.bank.accountName);
     expect(isValid(new Date(expeditionRecord.createdAt))).toBeTruthy();
   });
 });

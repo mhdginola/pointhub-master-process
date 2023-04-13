@@ -162,6 +162,7 @@ describe("retrieve all expeditions", () => {
     expect(response.body.expeditions[0].bank.name).toStrictEqual(data[0].bank.name);
     expect(response.body.expeditions[0].bank.branch).toStrictEqual(data[0].bank.branch);
     expect(response.body.expeditions[0].bank.accountNumber).toStrictEqual(data[0].bank.accountNumber);
+    expect(response.body.expeditions[0].bank.accountName).toStrictEqual(data[0].bank.accountName);
     expect(isValid(new Date(response.body.expeditions[0].createdAt))).toBeTruthy();
     expect(response.body.expeditions[1].name).toStrictEqual(data[1].name);
     expect(response.body.expeditions[2].name).toStrictEqual(data[2].name);

@@ -31,6 +31,7 @@ describe("retrieve an expedition", () => {
     expect(response.body.bank.name).toStrictEqual(data[1].bank.name);
     expect(response.body.bank.branch).toStrictEqual(data[1].bank.branch);
     expect(response.body.bank.accountNumber).toStrictEqual(data[1].bank.accountNumber);
+    expect(response.body.bank.accountName).toStrictEqual(data[1].bank.accountName);
     expect(isValid(new Date(response.body.createdAt))).toBeTruthy();
   });
 });
