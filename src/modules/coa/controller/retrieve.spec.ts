@@ -25,9 +25,12 @@ describe("retrieve an coa", () => {
     expect(response.body._id).toBeDefined();
     expect(response.body.number).toStrictEqual(data[1].number);
     expect(response.body.name).toStrictEqual(data[1].name);
-    expect(response.body.type_id).toStrictEqual(data[1].type_id);
-    expect(response.body.category_id).toStrictEqual(data[1].category_id);
-    expect(response.body.group_id).toStrictEqual(data[1].group_id);
+    expect(response.body.type._id).toStrictEqual(data[1].type_id);
+    expect(response.body.type.name).not.toBeNull();
+    expect(response.body.category._id).toStrictEqual(data[1].category_id);
+    expect(response.body.category.name).not.toBeNull();
+    expect(response.body.group._id).toStrictEqual(data[1].group_id);
+    expect(response.body.group.name).not.toBeNull();
     expect(response.body.subledger).toStrictEqual(data[1].subledger);
     expect(response.body.position).toStrictEqual(data[1].position);
     expect(isValid(new Date(response.body.createdAt))).toBeTruthy();

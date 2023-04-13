@@ -155,9 +155,12 @@ describe("retrieve all coas", () => {
     expect(response.body.coas[0]._id).toBeDefined();
     expect(response.body.coas[0].number).toStrictEqual(data[0].number);
     expect(response.body.coas[0].name).toStrictEqual(data[0].name);
-    expect(response.body.coas[0].type_id).toStrictEqual(data[0].type_id);
-    expect(response.body.coas[0].category_id).toStrictEqual(data[0].category_id);
-    expect(response.body.coas[0].group_id).toStrictEqual(data[0].group_id);
+    expect(response.body.coas[0].type._id).toStrictEqual(data[0].type_id);
+    expect(response.body.coas[0].type.name).toStrictEqual(data[0].type.name);
+    expect(response.body.coas[0].category._id).toStrictEqual(data[0].category_id);
+    expect(response.body.coas[0].category.name).toStrictEqual(data[0].category.name);
+    expect(response.body.coas[0].group._id).toStrictEqual(data[0].group_id);
+    expect(response.body.coas[0].group.name).toStrictEqual(data[0].group.name);
     expect(response.body.coas[0].subledger).toStrictEqual(data[0].subledger);
     expect(response.body.coas[0].position).toStrictEqual(data[0].position);
 
