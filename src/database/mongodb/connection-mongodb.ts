@@ -385,7 +385,7 @@ export default class MongoDbConnection implements IDatabaseAdapter {
   }
 
   public async aggregate(
-    pipeline: Array<never>,
+    pipeline: DocumentInterface[],
     query: AggregateQueryInterface,
     options?: AggregateOptionsInterface
   ): Promise<AggregateResultInterface> {
@@ -395,8 +395,10 @@ export default class MongoDbConnection implements IDatabaseAdapter {
 
     const aggregateOptions = options as AggregateOptions;
 
+    const pageSize: number = +query.pageSize;
+
     const cursor = this._collection.aggregate(
-      [...pipeline, { $skip: (query.page - 1) * query.pageSize }, { $limit: query.pageSize }],
+      [...pipeline, { $skip: ((query.page || 1) - 1) * (query.pageSize || 10) }, { $limit: pageSize || 10 }],
       aggregateOptions
     );
 
