@@ -78,6 +78,7 @@ export interface DeleteManyResultInterface {
 export interface AggregateQueryInterface {
   page: number;
   pageSize: number;
+  sort: string;
 }
 
 export interface AggregateResultInterface {
@@ -123,7 +124,7 @@ export interface IDatabaseAdapter {
   deleteMany(filter: DocumentInterface, options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface>;
   deleteAll(options?: DeleteManyOptionsInterface): Promise<DeleteManyResultInterface>;
   aggregate(
-    pipeline: unknown,
+    pipeline: DocumentInterface[],
     query: AggregateQueryInterface,
     options?: AggregateOptionsInterface
   ): Promise<AggregateResultInterface>;
@@ -275,7 +276,7 @@ export default class DatabaseConnection {
   }
 
   public async aggregate(
-    pipeline: unknown,
+    pipeline: DocumentInterface[],
     query: AggregateQueryInterface,
     options?: AggregateOptionsInterface
   ): Promise<AggregateResultInterface> {

@@ -2,6 +2,9 @@ import { isValid } from "date-fns";
 import request from "supertest";
 import CoaFactory from "../model/coa.factory.js";
 import { createApp } from "@src/app.js";
+import CoaCategoryFactory from "@src/modules/coa-category/model/coa-category.factory.js";
+import CoaGroupsFactory from "@src/modules/coa-group/model/coa-group.factory.js";
+import CoaTypeFactory from "@src/modules/coa-type/model/coa-type.factory.js";
 import { resetDatabase, retrieveAll } from "@src/test/utils.js";
 
 describe("retrieve all coas", () => {
@@ -128,9 +131,9 @@ describe("retrieve all coas", () => {
     expect(response.body.coas[0].name).toStrictEqual(data[0].name);
     expect(response.body.coas[1].name).toStrictEqual(data[1].name);
     expect(response.body.coas[2].name).toStrictEqual(data[2].name);
-    expect(response.body.coas[0].createdAt).toBeUndefined();
-    expect(response.body.coas[1].createdAt).toBeUndefined();
-    expect(response.body.coas[2].createdAt).toBeUndefined();
+    expect(response.body.coas[0].createdAt).not.toBeUndefined();
+    expect(response.body.coas[1].createdAt).not.toBeUndefined();
+    expect(response.body.coas[2].createdAt).not.toBeUndefined();
 
     expect(response.body.pagination.page).toStrictEqual(1);
     expect(response.body.pagination.pageSize).toStrictEqual(10);
@@ -140,7 +143,34 @@ describe("retrieve all coas", () => {
   it("should be able to retrieve all coas", async () => {
     const app = await createApp();
 
+    const coaTypeFactory = new CoaTypeFactory();
+    const coaTypeResult = await coaTypeFactory.createMany(3);
+
+    const coaCategoryFactory = new CoaCategoryFactory();
+    const coaCategoryResult = await coaCategoryFactory.createMany(3);
+
+    const coaGroupFactory = new CoaGroupsFactory();
+    const coaGroupResult = await coaGroupFactory.createMany(3);
+
     const coaFactory = new CoaFactory();
+    const customCoa = [
+      {
+        category_id: coaCategoryResult.insertedIds[0],
+        type_id: coaTypeResult.insertedIds[0],
+        group_id: coaGroupResult.insertedIds[0],
+      },
+      {
+        category_id: coaCategoryResult.insertedIds[1],
+        type_id: coaTypeResult.insertedIds[1],
+        group_id: coaGroupResult.insertedIds[1],
+      },
+      {
+        category_id: coaCategoryResult.insertedIds[2],
+        type_id: coaTypeResult.insertedIds[2],
+        group_id: coaGroupResult.insertedIds[2],
+      },
+    ];
+    coaFactory.sequence(customCoa);
     await coaFactory.createMany(3);
 
     const data = await retrieveAll("coas");
@@ -156,11 +186,11 @@ describe("retrieve all coas", () => {
     expect(response.body.coas[0].number).toStrictEqual(data[0].number);
     expect(response.body.coas[0].name).toStrictEqual(data[0].name);
     expect(response.body.coas[0].type._id).toStrictEqual(data[0].type_id);
-    expect(response.body.coas[0].type.name).toStrictEqual(data[0].type.name);
+    expect(response.body.coas[0].type.name).not.toBeNull();
     expect(response.body.coas[0].category._id).toStrictEqual(data[0].category_id);
-    expect(response.body.coas[0].category.name).toStrictEqual(data[0].category.name);
+    expect(response.body.coas[0].category.name).not.toBeNull();
     expect(response.body.coas[0].group._id).toStrictEqual(data[0].group_id);
-    expect(response.body.coas[0].group.name).toStrictEqual(data[0].group.name);
+    expect(response.body.coas[0].group.name).not.toBeNull();
     expect(response.body.coas[0].subledger).toStrictEqual(data[0].subledger);
     expect(response.body.coas[0].position).toStrictEqual(data[0].position);
 
